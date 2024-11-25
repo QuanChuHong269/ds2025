@@ -9,6 +9,6 @@ Students are expected to:
 Student Info
 =========================
 
-* Student Name: Vo Hong Quang
-* Student ID: 22BI13386
+* Student Name: Chu Hong Quan
+* Student ID: 22BI13367
 * Student Group ID: Not-for-now
