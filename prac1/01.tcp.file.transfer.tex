@@ -1,0 +1,81 @@
+\documentclass{article}
+\usepackage{graphicx}
+
+\title{File Transfer over TCP/IP}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Protocol Design}
+The protocol is designed for a simple file transfer between a client and a server using TCP/IP. The client sends a file to the server, which receives and saves it. 
+
+\subsection{Protocol Steps}
+\begin{enumerate}
+    \item The client connects to the server using a specified address and port.
+    \item The client reads the file in chunks and sends it to the server.
+    \item The server receives the data and writes it to a local file until all data is received.
+\end{enumerate}
+
+\section{System Organization}
+The system consists of a server and a client. The server listens for incoming connections and handles file reception, while the client initiates the connection and sends the file.
+
+\section{Implementation}
+The implementation consists of two main components: the server and the client.
+
+\subsection{Server Code}
+\begin{verbatim}
+import socket
+
+def server_program():
+    server_socket = socket.socket()
+    server_socket.bind(('localhost', 5000))
+    server_socket.listen(1)
+    conn, address = server_socket.accept()
+    print("Connection from: " + str(address))
+
+    with open('received_file', 'wb') as f:
+        print("Receiving file...")
+        while True:
+            data = conn.recv(1024)
+            if not data:
+                break
+            f.write(data)
+    print("File received.")
+    conn.close()
+
+if __name__ == '__main__':
+    server_program()
+\end{verbatim}
+
+\subsection{Client Code}
+\begin{verbatim}
+import socket
+
+def client_program():
+    client_socket = socket.socket()
+    client_socket.connect(('localhost', 5000))
+
+    with open('file_to_send', 'rb') as f:
+        print("Sending file...")
+        data = f.read(1024)
+        while data:
+            client_socket.send(data)
+            data = f.read(1024)
+            
+    print("File sent.")
+    client_socket.close()
+
+if __name__ == '__main__':
+    client_program()
+\end{verbatim}
+
+\section{Roles and Responsibilities}
+\begin{itemize}
+    \item \textbf{Server:} Listens for incoming connections, receives file data, and saves it.
+    \item \textbf{Client:} Connects to the server, reads the file, and sends data in chunks.
+\end{itemize}
+
+\end{document}
